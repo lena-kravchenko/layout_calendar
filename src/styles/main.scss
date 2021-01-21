@@ -1,3 +1,68 @@
+@import "../../node_modules/reset-css/sass/reset";
+@import "./src/styles/variables";
+@import "./src/styles/mixins";
+
+@for $i from 1 through 31 {
+  .calendar :nth-child(#{$i}) {
+    @include centered;
+    width: $cellWidth;
+    height: $cellHeight;
+    background-color: $cellColorBg;
+    border: $cellBorder;
+    margin-bottom: $gap;
+    margin-right: $gap;
+    transition-duration: $durationForCell;
+  }
+
+  .calendar :nth-child(#{$i}):hover {
+    cursor: pointer;
+   
+    background-color: $cellColorBgHover;
+    transform: $cellTransform;
+  }
+
+  .calendar :nth-child(#{$i})::after {
+    content: "#{$i}";
+  }
+}
+
+$week: (
+  "mon": 0,
+  "tue": $cellWidth + $gap,
+  "wed": ($cellWidth + $gap) * 2,
+  "thu": ($cellWidth + $gap) * 3,
+  "fri": ($cellWidth + $gap) * 4,
+  "sat": ($cellWidth + $gap) * 5,
+  "sun": ($cellWidth + $gap) * 6
+);
+
+@each $name, $margin in $week {
+  .calendar-#{$name} :first-child {
+    margin-left: $margin;
+  }
+}
+
+@for $i from 28 through 31 {
+  .calendar-#{$i} :nth-child(#{$i}) ~ div {
+    visibility: hidden;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: $fontMain;
+  font-size: $fontSizeMain;
+}
+
 body {
-  margin: 0;
+  @include centered;
+  height: 100vh;
+}
+
+.calendar {
+  @include wrapped;
+  width: $calendarWidth;
 }
